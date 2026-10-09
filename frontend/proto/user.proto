@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+message User {
+  string userId        = 1;
+  string username      = 2;
+  string name          = 3;
+  string avatarUrl     = 4;
+  string student_group = 5;
+  int32  timeLimit     = 6;
+  bool   isAdmin       = 7;
+}
+
+message Users {
+  repeated User user = 1;
+}

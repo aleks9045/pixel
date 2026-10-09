@@ -1,0 +1,65 @@
+services:
+  backend:
+    container_name: backend
+    build:
+      context: backend
+      dockerfile: go.Dockerfile
+    depends_on:
+      - database
+    networks:
+      - default
+    ports:
+      - "8080:8080"
+
+  frontend:
+    container_name: frontend
+    build:
+      context: frontend
+      dockerfile: frontend.Dockerfile
+    networks:
+      - default
+    ports:
+      - "8000:8000"
+
+  nginx:
+    container_name: nginx
+    build:
+      context: nginx
+      dockerfile: nginx.Dockerfile
+    depends_on:
+      - frontend
+      - backend
+    ports:
+      - "80:80"
+    networks:
+      - default
+
+  database:
+    build:
+      context: database
+      dockerfile: postgres.Dockerfile
+    container_name: database
+    env_file:
+      - database/.env
+    volumes:
+      - database_logs:/var/log/postgresql
+      - database_data:/var/lib/postgresql/18/docker
+    networks:
+      - default
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}" ]
+      interval: 60s
+      timeout: 3s
+      retries: 2
+      start_period: 5s
+
+volumes:
+  database_data:
+  database_logs:
+
+networks:
+  default:
+    name: default_network
+    driver: bridge
