@@ -29,17 +29,7 @@ SET client_min_messages = warning;
 
 SET row_security = off;
 
---
--- Name: public; Type: SCHEMA; Schema: -; Owner: postgres
---
-
--- *not* creating schema, since initdb creates it
-
 ALTER SCHEMA public OWNER TO postgres;
-
---
--- Name: SCHEMA public; Type: COMMENT; Schema: -; Owner: postgres
---
 
 COMMENT ON SCHEMA public IS '';
 
@@ -47,9 +37,7 @@ SET default_tablespace = '';
 
 SET default_table_access_method = heap;
 
---
--- Name: pixel; Type: TABLE; Schema: public; Owner: postgres
---
+-- TABLES
 
 CREATE TABLE public.pixel (
     x smallint NOT NULL,
